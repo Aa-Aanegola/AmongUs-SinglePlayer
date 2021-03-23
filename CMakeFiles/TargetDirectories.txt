@@ -1,0 +1,9 @@
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/CMakeFiles/rebuild_cache.dir
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/CMakeFiles/Hello-World.dir
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/CMakeFiles/edit_cache.dir
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/CMakeFiles/glad.dir
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/libraries/glfw/CMakeFiles/rebuild_cache.dir
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/libraries/glfw/CMakeFiles/edit_cache.dir
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/libraries/glfw/src/CMakeFiles/rebuild_cache.dir
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/libraries/glfw/src/CMakeFiles/glfw.dir
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/libraries/glfw/src/CMakeFiles/edit_cache.dir

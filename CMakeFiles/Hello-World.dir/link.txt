@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/Hello-World.dir/source/main.cpp.o  -o Hello-World libraries/glfw/src/libglfw3.a libglad.a -ldl -lpthread -lrt -lm -ldl 
