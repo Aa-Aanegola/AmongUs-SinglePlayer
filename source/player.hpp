@@ -1,7 +1,9 @@
 #include "defs.hpp"
+#include "world.hpp"
 
 #ifndef PLAYER_H
 #define PLAYER_H
+
 
 class Player{
 public:
@@ -54,7 +56,7 @@ int Player::init(float pos_x, float pos_y){
     }
 
     //semi-circle
-    vertices.insert(vertices.end(), {0.0f, height/2, 0.0f});
+    vertices.insert(vertices.end(), {pos_x+0.0f, pos_y+height/2, 0.0f});
     vertices.insert(vertices.end(), {0.4196f, 0.7568f, 0.1373f});
 
     float cur_angle = 0;

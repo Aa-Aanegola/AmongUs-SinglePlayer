@@ -36,6 +36,14 @@ world.hpp
 player.hpp
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/player.hpp
 
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/joint.hpp
+defs.hpp
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/defs.hpp
+world.hpp
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/world.hpp
+player.hpp
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/player.hpp
+
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/main.cpp
 defs.hpp
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/defs.hpp
@@ -45,10 +53,14 @@ player.hpp
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/player.hpp
 graphics_setup.hpp
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/graphics_setup.hpp
+joint.hpp
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/joint.hpp
 
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/player.hpp
 defs.hpp
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/defs.hpp
+world.hpp
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/world.hpp
 
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/world.hpp
 defs.hpp

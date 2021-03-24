@@ -3,6 +3,7 @@
 
 CMakeFiles/Hello-World.dir/source/main.cpp.o: source/defs.hpp
 CMakeFiles/Hello-World.dir/source/main.cpp.o: source/graphics_setup.hpp
+CMakeFiles/Hello-World.dir/source/main.cpp.o: source/joint.hpp
 CMakeFiles/Hello-World.dir/source/main.cpp.o: source/main.cpp
 CMakeFiles/Hello-World.dir/source/main.cpp.o: source/player.hpp
 CMakeFiles/Hello-World.dir/source/main.cpp.o: source/world.hpp

@@ -116,7 +116,7 @@ GLFWwindow *setup_graphics(unsigned int &shaderProgram, GLFWwindow *window){
     return window;
 }
 
-void processInput(GLFWwindow *window, Maze &world, Player &player){
+void processInput(GLFWwindow *window, Maze &world, Player &player, Player &bot){
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
@@ -153,6 +153,12 @@ void processInput(GLFWwindow *window, Maze &world, Player &player){
     if(glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS){
         world.lights_off();
     }
+
+    int bot_move = world.shortest_path(bot.vertices, bot.position, player.vertices, player.position);
+    if(bot_move == NORTH || bot_move == SOUTH)
+        bot.move(bot_move, y_speed, world);
+    else
+        bot.move(bot_move, x_speed, world);
 }
 
 #endif
