@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include<GL/glut.h>
 
 #define EXT_FAIL           -1
 #define EXT_SUCC            1
@@ -24,7 +25,6 @@
 
 #define ff              first
 #define ss             second
-#define mp          make_pair
 
 #define SCR_WIDTH        1920
 #define SCR_HEIGHT       1080
@@ -36,6 +36,11 @@
 #define PLAYER_HEALTH    10.0
 
 #define INF               1e9
+#define GRADIENT          0.2
+
+#define min(a, b)   (a<b?a:b)
+#define max(a, b)   (a>b?a:b)
+
 
 // Global variables
 unsigned int shaderProgram;
@@ -45,5 +50,6 @@ glm::vec3 cameraPos = glm::vec3(0.0, 0.0, 1.0);
 glm::vec3 cameraFront = glm::vec3(0, 0.0, -1.0);
 glm::vec3 cameraUp = glm::vec3(0.0, 1.0, 0.0);
 glm::vec3 cameraRight = glm::vec3(1.0, 0.0, 0.0);
+
 
 #endif

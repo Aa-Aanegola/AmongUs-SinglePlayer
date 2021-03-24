@@ -25,6 +25,8 @@ glm/gtc/matrix_transform.hpp
 -
 glm/gtc/type_ptr.hpp
 -
+GL/glut.h
+-
 
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/graphics_setup.hpp
 defs.hpp

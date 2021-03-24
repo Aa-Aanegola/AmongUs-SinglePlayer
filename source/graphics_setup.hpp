@@ -146,6 +146,13 @@ void processInput(GLFWwindow *window, Maze &world, Player &player){
         if(ret == EXT_SUCC)
             cameraPos -= x_speed * cameraRight;
     }
+
+    if(glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS){
+        world.lights_on();
+    }
+    if(glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS){
+        world.lights_off();
+    }
 }
 
 #endif
