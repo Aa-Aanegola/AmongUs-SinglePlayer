@@ -106,3 +106,39 @@ int update_bot_visibility(Player &player, Player &bot, Maze& world){
             bot.vertices[i+5] = max(0.0, 0.24*(1.0 - GRADIENT*scale));
         }
 }
+
+bool remove_bot(Player &player, Maze &world){
+    std::pair<std::pair<int, int>, std::pair<int, int>> bounds = world.get_bounds(player.vertices, player.position);
+    if(bounds.ff.ff == world.bot_kill.ff && bounds.ff.ss == world.bot_kill.ff)
+        if(bounds.ss.ff == world.bot_kill.ss && bounds.ss.ss == world.bot_kill.ss){
+            world.tasks -= 1;
+            return true;
+        }
+
+    return false;
+}
+
+bool bot_killed_player(Player &player, Player &bot, Maze &world){
+    if(bot.dead)
+        return false;
+    std::pair<std::pair<int, int>, std::pair<int, int>> pbounds = world.get_bounds(player.vertices, player.position);
+    std::pair<std::pair<int, int>, std::pair<int, int>> bbounds = world.get_bounds(bot.vertices, bot.position);
+
+    if(pbounds == bbounds)
+        return true;
+    return false;
+}
+
+bool game_over(Player &player, Maze &world){
+    if(world.tasks != 0)
+        return false;
+    
+    std::pair<std::pair<int, int>, std::pair<int, int>> bounds = world.get_bounds(player.vertices, player.position);
+    if(bounds.ff.ff == world.end.ff && bounds.ff.ss == world.end.ff)
+        if(bounds.ss.ff == world.end.ss && bounds.ss.ss == world.end.ss){
+            world.tasks -= 1;
+            return true;
+        }
+    
+    return false;
+}

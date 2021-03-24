@@ -44,9 +44,20 @@ public:
     int columns;
 
     bool lights;
+    int tasks;
 
     std::vector<GLfloat> wall_vertices;
     std::vector<unsigned int> wall_indices;
+
+    std::vector<GLfloat> end_vertices;
+    std::vector<unsigned int> end_indices; 
+
+    std::vector<GLfloat> bot_kill_vertices;
+    std::vector<unsigned int> bot_kill_indices;
+
+    std::pair<int, int> end;
+
+    std::pair<int, int> bot_kill;
 
     Maze(int r, int c){
         rows = r;
@@ -55,6 +66,7 @@ public:
         maze = std::vector<std::vector<Node>>(rows, std::vector<Node>(columns));
 
         lights = true;
+        tasks = 1;
     }
 
     // Function to add a path in the maze
@@ -160,7 +172,7 @@ int Maze::init(){
 
 
         dir.clear();
-    } 
+    }
 
     // Arbitrarily carve pathways
     // Each wall has 0.2 probability of being removed
@@ -222,6 +234,38 @@ int Maze::init(){
         }
     }
 
+    end = std::make_pair(rand() % MAZE_WIDTH, rand() % MAZE_HEIGHT);
+
+    x = width * (end.ff - MAZE_WIDTH/2);
+    y = height * (MAZE_HEIGHT/2 - end.ss);
+
+    for(int i = -1; i<=1; i+=2){
+        for(int j = -1; j<=1; j+=2){
+            end_vertices.insert(end_vertices.end(), {x + j*width/3, y + i*height/3, 0});
+            end_vertices.insert(end_vertices.end(), {0.19, 0.90, 0.37});
+        }
+    }
+    for(unsigned int i = 0; i<2; i++)
+        end_indices.insert(end_indices.end(), {i, i+1, i+2});
+
+    bot_kill = std::make_pair(rand() % MAZE_WIDTH, rand() % MAZE_HEIGHT);
+
+    while(bot_kill.ff == end.ff && bot_kill.ss == end.ss){
+        bot_kill = std::make_pair(rand() % MAZE_WIDTH, rand() % MAZE_HEIGHT);
+    }
+
+    x = width * (bot_kill.ff - MAZE_WIDTH/2);
+    y = height * (MAZE_HEIGHT/2 - bot_kill.ss);
+
+    for(int i = -1; i<=1; i+=2){
+        for(int j = -1; j<=1; j+=2){
+            bot_kill_vertices.insert(bot_kill_vertices.end(), {x + j*width/3, y + i*height/3, 0});
+            bot_kill_vertices.insert(bot_kill_vertices.end(), {0.90, 0.00, 0.30});
+        }
+    }
+    for(unsigned int i = 0; i<2; i++)
+        bot_kill_indices.insert(bot_kill_indices.end(), {i, i+1, i+2});
+
     return EXT_SUCC;
 }
 
@@ -264,6 +308,22 @@ int Maze::draw(unsigned int shaderProgram, GLFWwindow *window){
 
 
     glDrawElements(GL_LINES, wall_indices.size(), GL_UNSIGNED_INT, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, end_vertices.size()*sizeof(GLfloat), &end_vertices[0], GL_DYNAMIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, end_indices.size()*sizeof(unsigned int), &end_indices[0], GL_DYNAMIC_DRAW);
+
+    glDrawElements(GL_TRIANGLES, end_indices.size(), GL_UNSIGNED_INT, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, bot_kill_vertices.size()*sizeof(GLfloat), &bot_kill_vertices[0], GL_DYNAMIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, bot_kill_indices.size()*sizeof(unsigned int), &bot_kill_indices[0], GL_DYNAMIC_DRAW);
+
+    glDrawElements(GL_TRIANGLES, bot_kill_indices.size(), GL_UNSIGNED_INT, 0);
 }
 
 int Maze::can_move(std::vector<GLfloat> vertices, glm::vec3 pos, int dir){
@@ -385,6 +445,18 @@ int Maze::update_lights(std::vector<float> vertices, glm::vec3 pos){
             wall_vertices[i+4] = 1.0f;
             wall_vertices[i+5] = 1.0f;
         }
+        for(int i = 0; i<end_vertices.size(); i+=6){
+            end_vertices[i+3] = 0.19;
+            end_vertices[i+4] = 0.90;
+            end_vertices[i+5] = 0.37;
+        }   
+
+        for(int i = 0; i<bot_kill_vertices.size(); i+=6){
+            bot_kill_vertices[i+3] = 0.90;
+            bot_kill_vertices[i+4] = 0.00;
+            bot_kill_vertices[i+5] = 0.30;
+        }  
+
         return EXT_SUCC;
     }
 
@@ -471,6 +543,19 @@ int Maze::update_lights(std::vector<float> vertices, glm::vec3 pos){
         wall_vertices[i+4] = max(0.0, 1.0 - GRADIENT*scale);
         wall_vertices[i+5] = max(0.0, 1.0 - GRADIENT*scale);
     }
+
+    for(int i = 0; i<end_vertices.size(); i+=6){
+        end_vertices[i+3] = max(0.0, 0.19*(1 - dist[end.ss][end.ff]*GRADIENT));
+        end_vertices[i+4] = max(0.0, 0.90*(1 - dist[end.ss][end.ff]*GRADIENT));
+        end_vertices[i+5] = max(0.0, 0.37*(1 - dist[end.ss][end.ff]*GRADIENT));
+    }
+
+    for(int i = 0; i<bot_kill_vertices.size(); i+=6){
+        bot_kill_vertices[i+3] = max(0.0, 0.90*(1 - dist[bot_kill.ss][bot_kill.ff]*GRADIENT));
+        bot_kill_vertices[i+4] = max(0.0, 0.00*(1 - dist[bot_kill.ss][bot_kill.ff]*GRADIENT));
+        bot_kill_vertices[i+5] = max(0.0, 0.30*(1 - dist[bot_kill.ss][bot_kill.ff]*GRADIENT));
+    }
+
     return EXT_SUCC;
 }
 

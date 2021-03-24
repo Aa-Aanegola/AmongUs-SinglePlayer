@@ -10,12 +10,14 @@ public:
     std::vector<GLfloat> vertices;
     std::vector<unsigned int> indices;
 
-    float health;
+    bool dead;
+    int points;
 
     glm::vec3 position;
 
     Player(){
-        health = PLAYER_HEALTH;
+        dead = false;
+        points = 0;
         position = glm::vec3(0.0f, 0.0f, 0.0f);
     }
 
@@ -25,6 +27,7 @@ public:
 
     int move(int, float, Maze&);
 
+    void kill();
 };
 
 int Player::init(float pos_x, float pos_y){
@@ -161,6 +164,14 @@ int Player::move(int dir, float speed, Maze &maze){
     return EXT_FAIL;
 }
 
+
+void Player::kill(){
+    dead = true;
+    for(int i = 0; i<vertices.size(); i++){
+        vertices[i] = 0;
+    }
+    indices.clear();
+}
 
 
 #endif

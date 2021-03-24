@@ -7,6 +7,7 @@
 using namespace std;
 
 int main(){
+    srand(0);
     window = setup_graphics(shaderProgram, window);
     if(window == NULL){
         cout << "sid is bond sir";
@@ -16,7 +17,13 @@ int main(){
     float width = (float)CELL_WIDTH/SCR_WIDTH;
     float height = (float)CELL_WIDTH/SCR_HEIGHT;
     
-    std::pair<float, float> zero = {-width*((float)MAZE_WIDTH/2-0.5), height*((float)MAZE_HEIGHT/2-0.5)};
+    int x = rand() % MAZE_WIDTH;
+    int y = rand() % MAZE_HEIGHT;
+    while(x == MAZE_WIDTH/2){
+        x = rand() % MAZE_WIDTH;
+    }
+
+    std::pair<float, float> pos = {-width*((float)x-(float)MAZE_WIDTH/2-0.5), height*((float)y - (float)MAZE_HEIGHT/2-0.5)};
 
     Maze world(MAZE_HEIGHT, MAZE_WIDTH);
     Player player;
@@ -24,7 +31,7 @@ int main(){
 
     world.init();
     player.init(0.0, 0.0);
-    bot.init(zero.ff, zero.ss);
+    bot.init(pos.ff, pos.ss);
 
     glUseProgram(shaderProgram);
 
@@ -39,6 +46,15 @@ int main(){
         bot.draw(shaderProgram, window);
         world.update_lights(player.vertices, player.position);
         update_bot_visibility(player, bot, world);
+
+        if(!bot.dead && remove_bot(player, world)){
+            bot.kill();
+        }
+
+        if(bot_killed_player(player, bot, world))
+            break;
+        if(game_over(player, world))
+            break;
 
         glfwSwapBuffers(window);
         glfwPollEvents();
