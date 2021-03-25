@@ -92,6 +92,9 @@ Hello-World: CMakeFiles/Hello-World.dir/source/main.cpp.o
 Hello-World: CMakeFiles/Hello-World.dir/build.make
 Hello-World: libraries/glfw/src/libglfw3.a
 Hello-World: libglad.a
+Hello-World: /usr/lib/x86_64-linux-gnu/libglut.so
+Hello-World: /usr/lib/x86_64-linux-gnu/libXi.so
+Hello-World: /usr/lib/x86_64-linux-gnu/libfreetype.so
 Hello-World: /usr/lib/x86_64-linux-gnu/librt.so
 Hello-World: /usr/lib/x86_64-linux-gnu/libm.so
 Hello-World: CMakeFiles/Hello-World.dir/link.txt

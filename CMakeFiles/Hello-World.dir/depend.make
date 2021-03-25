@@ -6,7 +6,10 @@ CMakeFiles/Hello-World.dir/source/main.cpp.o: source/graphics_setup.hpp
 CMakeFiles/Hello-World.dir/source/main.cpp.o: source/joint.hpp
 CMakeFiles/Hello-World.dir/source/main.cpp.o: source/main.cpp
 CMakeFiles/Hello-World.dir/source/main.cpp.o: source/player.hpp
+CMakeFiles/Hello-World.dir/source/main.cpp.o: source/text.hpp
 CMakeFiles/Hello-World.dir/source/main.cpp.o: source/world.hpp
+CMakeFiles/Hello-World.dir/source/main.cpp.o: /usr/include/freetype2/freetype/config/ftheader.h
+CMakeFiles/Hello-World.dir/source/main.cpp.o: /usr/include/freetype2/ft2build.h
 CMakeFiles/Hello-World.dir/source/main.cpp.o: libraries/glad/include/KHR/khrplatform.h
 CMakeFiles/Hello-World.dir/source/main.cpp.o: libraries/glad/include/glad/glad.h
 CMakeFiles/Hello-World.dir/source/main.cpp.o: libraries/glfw/include/GLFW/glfw3.h

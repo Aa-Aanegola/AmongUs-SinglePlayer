@@ -16,6 +16,8 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "source"
+  "-I/usr/include/freetype2"
+  "/usr/include/freetype2"
   "libraries/glfw/include"
   "libraries/glad/include"
   )

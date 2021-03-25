@@ -10,7 +10,9 @@ set(SOURCES "${SRC_DIR}/main.cpp")
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
+target_include_directories(Hello-World PRIVATE "-I/usr/include/freetype2")
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+include_directories (/usr/include/freetype2)
 
 # GLFW
 set(GLFW_DIR "${LIB_DIR}/glfw")
@@ -29,3 +31,17 @@ add_library("glad" "${GLAD_DIR}/src/glad.c")
 target_include_directories("glad" PRIVATE "${GLAD_DIR}/include")
 target_include_directories(${PROJECT_NAME} PRIVATE "${GLAD_DIR}/include")
 target_link_libraries(${PROJECT_NAME} "glad" "${CMAKE_DL_LIBS}")
+
+FIND_PACKAGE( OpenGL REQUIRED)
+FIND_PACKAGE( GLUT REQUIRED)
+
+include_directories( ${GLUT_INCLUDE_DIRS} )
+
+target_link_libraries(Hello-World ${GLUT_LIBRARY} )
+
+find_package(Freetype REQUIRED)
+
+target_link_libraries(Hello-World ${FREETYPE_LIBRARIES})
+target_include_directories(Hello-World PRIVATE ${FREETYPE_INCLUDE_DIRS})
+#SET(CMAKE_CXX_FLAGS "-O2 -std=c++11")
+#SET(CMAKE_EXE_LINKER_FLAGS "-v")

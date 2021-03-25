@@ -55,9 +55,21 @@ public:
     std::vector<GLfloat> bot_kill_vertices;
     std::vector<unsigned int> bot_kill_indices;
 
+    std::vector<GLfloat> powerup_vertices;
+    std::vector<unsigned int> powerup_indices;
+
+    std::vector<GLfloat> powerups_vertices;
+    std::vector<unsigned int> powerups_indices;
+
     std::pair<int, int> end;
 
     std::pair<int, int> bot_kill;
+
+    std::pair<int, int> powerup;
+
+    bool powerup_activated;
+
+    std::vector<std::pair<std::pair<int, int>, int>> powerup_pos;
 
     Maze(int r, int c){
         rows = r;
@@ -66,7 +78,9 @@ public:
         maze = std::vector<std::vector<Node>>(rows, std::vector<Node>(columns));
 
         lights = true;
-        tasks = 1;
+        tasks = 2;
+
+        powerup_activated = false;
     }
 
     // Function to add a path in the maze
@@ -86,6 +100,8 @@ public:
     int lights_off();
 
     int shortest_path(std::vector<float>, glm::vec3, std::vector<float>, glm::vec3);
+
+    void activate_powerups();
 };
 
 int Maze::path(int r, int c, int dir){
@@ -266,6 +282,24 @@ int Maze::init(){
     for(unsigned int i = 0; i<2; i++)
         bot_kill_indices.insert(bot_kill_indices.end(), {i, i+1, i+2});
 
+    powerup = std::make_pair(rand() % MAZE_WIDTH, rand() % MAZE_HEIGHT);
+
+    while((powerup.ff == end.ff && powerup.ss == end.ss) || (powerup.ff == bot_kill.ff && powerup.ss == bot_kill.ss)){
+        powerup = std::make_pair(rand() % MAZE_WIDTH, rand() % MAZE_HEIGHT);
+    }
+
+    x = width * (powerup.ff - MAZE_WIDTH/2);
+    y = height * (MAZE_HEIGHT/2 - powerup.ss);
+
+    for(int i = -1; i<=1; i+=2){
+        for(int j = -1; j<=1; j+=2){
+            powerup_vertices.insert(powerup_vertices.end(), {x + j*width/3, y + i*height/3, 0});
+            powerup_vertices.insert(powerup_vertices.end(), {0.90, 0.90, 0.00});
+        }
+    }
+    for(unsigned int i = 0; i<2; i++)
+        powerup_indices.insert(powerup_indices.end(), {i, i+1, i+2});
+
     return EXT_SUCC;
 }
 
@@ -306,8 +340,8 @@ int Maze::draw(unsigned int shaderProgram, GLFWwindow *window){
     unsigned int viewLoc = glGetUniformLocation(shaderProgram, "view");
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 
-
     glDrawElements(GL_LINES, wall_indices.size(), GL_UNSIGNED_INT, 0);
+
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, end_vertices.size()*sizeof(GLfloat), &end_vertices[0], GL_DYNAMIC_DRAW);
@@ -317,6 +351,7 @@ int Maze::draw(unsigned int shaderProgram, GLFWwindow *window){
 
     glDrawElements(GL_TRIANGLES, end_indices.size(), GL_UNSIGNED_INT, 0);
 
+
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, bot_kill_vertices.size()*sizeof(GLfloat), &bot_kill_vertices[0], GL_DYNAMIC_DRAW);
 
@@ -324,6 +359,23 @@ int Maze::draw(unsigned int shaderProgram, GLFWwindow *window){
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, bot_kill_indices.size()*sizeof(unsigned int), &bot_kill_indices[0], GL_DYNAMIC_DRAW);
 
     glDrawElements(GL_TRIANGLES, bot_kill_indices.size(), GL_UNSIGNED_INT, 0);
+
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, powerup_vertices.size()*sizeof(GLfloat), &powerup_vertices[0], GL_DYNAMIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, powerup_indices.size()*sizeof(unsigned int), &powerup_indices[0], GL_DYNAMIC_DRAW);
+
+    glDrawElements(GL_TRIANGLES, powerup_indices.size(), GL_UNSIGNED_INT, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, powerups_vertices.size()*sizeof(GLfloat), &powerups_vertices[0], GL_DYNAMIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, powerups_indices.size()*sizeof(unsigned int), &powerups_indices[0], GL_DYNAMIC_DRAW);
+
+    glDrawElements(GL_TRIANGLES, powerups_indices.size(), GL_UNSIGNED_INT, 0);
 }
 
 int Maze::can_move(std::vector<GLfloat> vertices, glm::vec3 pos, int dir){
@@ -457,6 +509,25 @@ int Maze::update_lights(std::vector<float> vertices, glm::vec3 pos){
             bot_kill_vertices[i+5] = 0.30;
         }  
 
+        for(int i = 0; i<bot_kill_vertices.size(); i+=6){
+            powerup_vertices[i+3] = 0.90;
+            powerup_vertices[i+4] = 0.90;
+            powerup_vertices[i+5] = 0.00;
+        }  
+
+        for(int i = 0; i<powerups_vertices.size(); i+=6){
+            if(powerup_pos[i/24].ss == 0){
+                powerups_vertices[i+3] = 0.00;
+                powerups_vertices[i+4] = 0.50;
+                powerups_vertices[i+5] = 0.50;
+            }
+            if(powerup_pos[i/24].ss == 1){
+                powerups_vertices[i+3] = 1.00;
+                powerups_vertices[i+4] = 0.20;
+                powerups_vertices[i+5] = 0.20;
+            }
+        }
+
         return EXT_SUCC;
     }
 
@@ -554,6 +625,25 @@ int Maze::update_lights(std::vector<float> vertices, glm::vec3 pos){
         bot_kill_vertices[i+3] = max(0.0, 0.90*(1 - dist[bot_kill.ss][bot_kill.ff]*GRADIENT));
         bot_kill_vertices[i+4] = max(0.0, 0.00*(1 - dist[bot_kill.ss][bot_kill.ff]*GRADIENT));
         bot_kill_vertices[i+5] = max(0.0, 0.30*(1 - dist[bot_kill.ss][bot_kill.ff]*GRADIENT));
+    }
+
+    for(int i = 0; i<powerup_vertices.size(); i+=6){
+        powerup_vertices[i+3] = max(0.0, 0.90*(1 - dist[powerup.ss][powerup.ff]*GRADIENT));
+        powerup_vertices[i+4] = max(0.0, 0.90*(1 - dist[powerup.ss][powerup.ff]*GRADIENT));
+        powerup_vertices[i+5] = max(0.0, 0.00*(1 - dist[powerup.ss][powerup.ff]*GRADIENT));
+    }
+
+    for(int i = 0; i<powerups_vertices.size(); i+=6){
+        if(powerup_pos[i/24].ss == 0){
+            powerups_vertices[i+3] = max(0.0f, 0.00*(1-dist[powerup_pos[i/24].ff.ss][powerup_pos[i/24].ff.ff]*GRADIENT));
+            powerups_vertices[i+4] = max(0.0f, 0.50*(1-dist[powerup_pos[i/24].ff.ss][powerup_pos[i/24].ff.ff]*GRADIENT));
+            powerups_vertices[i+5] = max(0.0f, 0.50*(1-dist[powerup_pos[i/24].ff.ss][powerup_pos[i/24].ff.ff]*GRADIENT));
+        }
+        if(powerup_pos[i/24].ss == 1){
+            powerups_vertices[i+3] = max(0.0f, 1.00*(1-dist[powerup_pos[i/24].ff.ss][powerup_pos[i/24].ff.ff]*GRADIENT));
+            powerups_vertices[i+4] = max(0.0f, 0.20*(1-dist[powerup_pos[i/24].ff.ss][powerup_pos[i/24].ff.ff]*GRADIENT));
+            powerups_vertices[i+5] = max(0.0f, 0.20*(1-dist[powerup_pos[i/24].ff.ss][powerup_pos[i/24].ff.ff]*GRADIENT));
+        }
     }
 
     return EXT_SUCC;
@@ -681,6 +771,32 @@ int Maze::shortest_path(std::vector<float> src_vertices, glm::vec3 src_pos, std:
     }
 
     return dir;
+}
+
+void Maze::activate_powerups(){
+    powerup_activated = true;
+    float height = (float)CELL_WIDTH/SCR_HEIGHT;
+    float width = (float)CELL_WIDTH/SCR_WIDTH;
+    std::pair<float, float> zero = {-width*(columns/2), height*(rows/2)};
+
+    for(int i = 0; i<NUM_POWERUP; i++){
+        powerup_pos.push_back(std::make_pair(std::make_pair(rand() % MAZE_WIDTH, rand() % MAZE_HEIGHT), rand() % 2));
+        auto cur = powerup_pos.back();
+        for(int j = -1; j<=1; j+=2){
+            for(int k = -1; k<=1; k+=2){
+                powerups_vertices.insert(powerups_vertices.end(), {zero.ff+cur.ff.ff*width+j*(width/4), zero.ss-cur.ff.ss*height+k*(height/4), 0});
+                if(cur.ss == 0){
+                    powerups_vertices.insert(powerups_vertices.end(), {0.0f, 0.5f, 0.5f});
+                }
+                else{
+                    powerups_vertices.insert(powerups_vertices.end(), {1.0f, 0.2f, 0.2f});
+                }
+            }
+        }
+        for(unsigned int j = 0; j<=1; j++){
+            powerups_indices.insert(powerups_indices.end(), {(unsigned int)4*i+j, (unsigned int)4*i+1+j, (unsigned int)4*i+2+j});
+        }
+    }
 }
 
 #endif

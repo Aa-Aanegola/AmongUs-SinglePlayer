@@ -6,7 +6,7 @@ C_FLAGS = -fPIC   -Wall -std=c99
 
 C_DEFINES = -D_GLFW_USE_CONFIG_H
 
-C_INCLUDES = -I/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/libraries/glfw/include -I/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/libraries/glfw/src 
+C_INCLUDES = -I/usr/include/freetype2 -I/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/libraries/glfw/include -I/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/libraries/glfw/src 
 
 # Custom flags: libraries/glfw/src/CMakeFiles/glfw.dir/context.c.o_FLAGS = -Wdeclaration-after-statement
 

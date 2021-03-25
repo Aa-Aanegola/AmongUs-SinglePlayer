@@ -6,5 +6,5 @@ C_FLAGS =
 
 C_DEFINES = 
 
-C_INCLUDES = -I/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/libraries/glad/include 
+C_INCLUDES = -I/usr/include/freetype2 -I/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/libraries/glad/include 
 

@@ -10,8 +10,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include<GL/glut.h>
-
+#include <GL/glut.h>
+#include <GL/freeglut.h>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 #define EXT_FAIL           -1
 #define EXT_SUCC            1
@@ -34,7 +36,7 @@
 #define MAZE_HEIGHT        25
 #define MAZE_WIDTH         25
 
-#define PLAYER_HEALTH    10.0
+#define NUM_POWERUP        10
 
 #define INF               1e9
 #define GRADIENT          0.2
@@ -45,12 +47,13 @@
 
 // Global variables
 unsigned int shaderProgram;
+unsigned int text_shader;
 GLFWwindow *window;
 
 glm::vec3 cameraPos = glm::vec3(0.0, 0.0, 1.0);
 glm::vec3 cameraFront = glm::vec3(0, 0.0, -1.0);
 glm::vec3 cameraUp = glm::vec3(0.0, 1.0, 0.0);
 glm::vec3 cameraRight = glm::vec3(1.0, 0.0, 0.0);
-
-
+float width = (float)CELL_WIDTH/SCR_WIDTH;
+float height = (float)CELL_WIDTH/SCR_HEIGHT;
 #endif

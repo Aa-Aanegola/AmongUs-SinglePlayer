@@ -22,6 +22,7 @@ int update_bot_visibility(Player &player, Player &bot, Maze& world){
         return EXT_SUCC;
     }
 
+
     std::pair<std::pair<int, int>, std::pair<int, int>> bounds = world.get_bounds(player.vertices, player.position);
 
     std::vector<std::vector<int>> dist(world.rows, std::vector<int>(world.columns, -1));
@@ -111,6 +112,7 @@ bool remove_bot(Player &player, Maze &world){
     std::pair<std::pair<int, int>, std::pair<int, int>> bounds = world.get_bounds(player.vertices, player.position);
     if(bounds.ff.ff == world.bot_kill.ff && bounds.ff.ss == world.bot_kill.ff)
         if(bounds.ss.ff == world.bot_kill.ss && bounds.ss.ss == world.bot_kill.ss){
+            player.score += 100;
             world.tasks -= 1;
             return true;
         }
@@ -129,6 +131,20 @@ bool bot_killed_player(Player &player, Player &bot, Maze &world){
     return false;
 }
 
+bool activate_powerup(Player &player, Player &bot, Maze &world){
+    if(world.powerup_activated == true)
+        return false;
+    std::pair<std::pair<int, int>, std::pair<int, int>> bounds = world.get_bounds(player.vertices, player.position);
+    if(bounds.ff.ff == world.powerup.ff && bounds.ff.ss == world.powerup.ff)
+        if(bounds.ss.ff == world.powerup.ss && bounds.ss.ss == world.powerup.ss){
+            player.score += 100;
+            world.tasks -= 1;
+            return true;
+        }
+    
+    return false;
+}
+
 bool game_over(Player &player, Maze &world){
     if(world.tasks != 0)
         return false;
@@ -136,9 +152,47 @@ bool game_over(Player &player, Maze &world){
     std::pair<std::pair<int, int>, std::pair<int, int>> bounds = world.get_bounds(player.vertices, player.position);
     if(bounds.ff.ff == world.end.ff && bounds.ff.ss == world.end.ff)
         if(bounds.ss.ff == world.end.ss && bounds.ss.ss == world.end.ss){
+            player.score += 100;
             world.tasks -= 1;
             return true;
         }
     
     return false;
 }
+
+void check_powerups(Player &player, Maze &world){
+    std::pair<std::pair<int, int>, std::pair<int, int>> bounds = world.get_bounds(player.vertices, player.position);
+
+    std::vector<int> to_remove;
+    to_remove.clear();
+
+    
+    for(int i = 0; i<world.powerup_pos.size(); i++){
+        if(to_remove.size())
+            continue;
+        if(world.powerup_pos[i].ff.ff == bounds.ff.ff && world.powerup_pos[i].ff.ff == bounds.ff.ss)
+            if(world.powerup_pos[i].ff.ss == bounds.ss.ff && world.powerup_pos[i].ff.ss == bounds.ss.ss){
+                if(world.powerup_pos[i].ss == 0)
+                    player.score += 10;
+                else
+                    player.score -= 10;
+                to_remove.push_back(i);
+            }
+    }
+
+    if(to_remove.size()){
+        int pos = to_remove[0];
+        world.powerup_pos[pos] = std::make_pair(std::make_pair(-1, -1), -1);
+        for(int i = 24*pos; i<24*(pos+1); i++)
+            world.powerups_vertices[i] = 0;
+    }
+}
+
+void lights_off_score(Player &player, Maze &world, int &prev_time){
+    if(player.time - (int)glfwGetTime() != player.time - prev_time){
+        if(world.lights == false)
+            player.score += 2;
+        prev_time = (int)glfwGetTime();
+    }
+}
+

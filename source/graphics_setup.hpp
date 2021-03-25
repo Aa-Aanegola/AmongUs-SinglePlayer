@@ -46,7 +46,6 @@ GLFWwindow *setup_graphics(unsigned int &shaderProgram, GLFWwindow *window){
     // glfw window creation
     // --------------------
     window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game", NULL, NULL);
-    std::cout << window;
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -108,9 +107,9 @@ GLFWwindow *setup_graphics(unsigned int &shaderProgram, GLFWwindow *window){
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
+    glm::mat4 projection = glm::ortho(0.0f, 1920.0f, 0.0f, 1080.0f);
     unsigned int projectionLoc = glGetUniformLocation(shaderProgram, "projection");
+    glUseProgram(shaderProgram);
     glUniformMatrix4fv(projectionLoc, SCR_WIDTH/SCR_HEIGHT, GL_FALSE, glm::value_ptr(projection));
 
     return window;

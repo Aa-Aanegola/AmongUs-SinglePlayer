@@ -11,13 +11,15 @@ public:
     std::vector<unsigned int> indices;
 
     bool dead;
-    int points;
+    int score;
+    int time;
 
     glm::vec3 position;
 
     Player(){
         dead = false;
-        points = 0;
+        score = 0;
+        time = 300;
         position = glm::vec3(0.0f, 0.0f, 0.0f);
     }
 
@@ -74,6 +76,8 @@ int Player::init(float pos_x, float pos_y){
     for(unsigned int i = 0; i<180.0/increment; i++){
         indices.insert(indices.end(), {8, (i+9), (i+10)});
     }
+
+    time += (int)glfwGetTime();
 
     return EXT_SUCC;
 }

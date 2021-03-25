@@ -30,6 +30,7 @@ set(CMAKE_TARGET_DEFINITIONS_C
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
+  "/usr/include/freetype2"
   "libraries/glfw/include"
   "libraries/glfw/src"
   )
