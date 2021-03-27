@@ -19,7 +19,7 @@ public:
     Player(){
         dead = false;
         score = 0;
-        time = 300;
+        time = TIME_LIMIT;
         position = glm::vec3(0.0f, 0.0f, 0.0f);
     }
 
@@ -84,6 +84,8 @@ int Player::init(float pos_x, float pos_y){
 
 int Player::draw(unsigned int shaderProgram, GLFWwindow *window){
     unsigned int VBO, VAO, EBO;
+
+    glUseProgram(shaderProgram);
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);

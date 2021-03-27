@@ -25,11 +25,23 @@ glm/gtc/matrix_transform.hpp
 -
 glm/gtc/type_ptr.hpp
 -
-GL/glut.h
+ft2build.h
 -
 GL/freeglut.h
 -
-ft2build.h
+glText.h
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/glText.h
+
+/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/glText.h
+stdlib.h
+-
+string.h
+-
+stdint.h
+-
+assert.h
+-
+stdio.h
 -
 
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/graphics_setup.hpp
@@ -59,18 +71,12 @@ graphics_setup.hpp
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/graphics_setup.hpp
 joint.hpp
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/joint.hpp
-text.hpp
-/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/text.hpp
 
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/player.hpp
 defs.hpp
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/defs.hpp
 world.hpp
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/world.hpp
-
-/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/text.hpp
-defs.hpp
-/media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/defs.hpp
 
 /media/aakash/Aakash_aanegola/Year-2/Sem4/CG/Assignment-1/source/world.hpp
 defs.hpp

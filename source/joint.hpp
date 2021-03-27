@@ -146,6 +146,8 @@ bool activate_powerup(Player &player, Player &bot, Maze &world){
 }
 
 bool game_over(Player &player, Maze &world){
+    if(player.time -(int)glfwGetTime() <= 0)
+        return true;
     if(world.tasks != 0)
         return false;
     
@@ -196,3 +198,62 @@ void lights_off_score(Player &player, Maze &world, int &prev_time){
     }
 }
 
+void render_hud(Player &player, Maze &world){
+    GLTtext *text1 = gltCreateText();
+	gltSetText(text1, "Hello World!");
+    char str[50];
+
+    gltBeginDraw();
+
+    gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+    sprintf(str, "Score: %d", player.score);
+    gltSetText(text1, str);
+    gltDrawText2D(text1, 10.0f, 10.0f, 2.0f);
+
+    gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+    if(world.lights)
+        sprintf(str, "Lights: On");
+    else
+        sprintf(str, "Lights: Off");
+    gltSetText(text1, str);
+    gltDrawText2D(text1, 10.0f, 50.0f, 2.0f);
+
+    gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+    sprintf(str, "Tasks: %d/2", 2-world.tasks);
+    gltSetText(text1, str);
+    gltDrawText2D(text1, 10.0f, 90.0f, 2.0f);
+
+    gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+    sprintf(str, "Time: %d", player.time - (int)glfwGetTime());
+    gltSetText(text1, str);
+    gltDrawText2D(text1, 10.0f, 130.0f, 2.0f);
+
+    gltEndDraw();
+
+}
+
+
+void game_over_message(Player &player){
+    GLTtext *text1 = gltCreateText();
+	gltSetText(text1, "Hello World!");
+    char str[50];
+
+    gltBeginDraw();
+
+    gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+    sprintf(str, "Game over!");
+    gltSetText(text1, str);
+    gltDrawText2DAligned(text1,
+			(GLfloat)(SCR_WIDTH / 2),
+			(GLfloat)(SCR_HEIGHT / 2.1),
+			5.0f,
+			GLT_CENTER, GLT_CENTER);
+    sprintf(str, "Score: %d", player.score);
+    gltSetText(text1, str);
+    gltDrawText2DAligned(text1,
+			(GLfloat)(SCR_WIDTH / 2),
+			(GLfloat)(SCR_HEIGHT / 1.9),
+			3.0f,
+			GLT_CENTER, GLT_CENTER);
+    gltEndDraw();   
+}

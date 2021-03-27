@@ -306,6 +306,8 @@ int Maze::init(){
 int Maze::draw(unsigned int shaderProgram, GLFWwindow *window){
     unsigned int VBO, VAO, EBO;
 
+    glUseProgram(shaderProgram);
+
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);

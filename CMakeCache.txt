@@ -247,6 +247,9 @@ FREETYPE_LIBRARY_DEBUG:FILEPATH=FREETYPE_LIBRARY_DEBUG-NOTFOUND
 //Path to a library.
 FREETYPE_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libfreetype.so
 
+//The directory containing a CMake configuration file for FreeGLUT.
+FreeGLUT_DIR:PATH=/usr/local/lib/cmake/FreeGLUT
+
 //Path to a file.
 GLEW_INCLUDE_DIR:PATH=GLEW_INCLUDE_DIR-NOTFOUND
 

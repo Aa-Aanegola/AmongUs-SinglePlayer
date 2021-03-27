@@ -19,7 +19,7 @@ void set_text_shader(unsigned int &text_shader){
         "uniform mat4 projection;\n"
         "void main()\n"
         "{\n"
-        "    gl_Position = projection * vec4(vertex.xy, 0.0, 1.0);\n"
+        "    gl_Position = vec4(vertex.xy, 0.0, 1.0);\n"
         "    TexCoords = vertex.zw;\n"
         "}\n";
 
@@ -34,7 +34,7 @@ void set_text_shader(unsigned int &text_shader){
         "void main()\n"
         "{\n"    
         "    vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, TexCoords).r);\n"
-        "    color = vec4(textColor, 1.0) * sampled;\n"
+        "    color = vec4(1.0, 1.0, 1.0, 1.0) * sampled;\n"
         "}\n";
 
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -81,9 +81,6 @@ void set_text_shader(unsigned int &text_shader){
     glUseProgram(text_shader);
     glUniformMatrix4fv(glGetUniformLocation(text_shader, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
     
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
 
     FT_Library ft;
     // All functions return a value different than 0 whenever an error occurred
@@ -101,11 +98,6 @@ void set_text_shader(unsigned int &text_shader){
     FT_Face face;
     if (FT_New_Face(ft, resolved_path, 0, &face)) {
         std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
-        return;
-    }
-
-    if(FT_Load_Char(face, 'X', FT_LOAD_RENDER)) {
-        fprintf(stderr, "Could not load character 'X'\n");
         return;
     }
 
@@ -186,8 +178,8 @@ void render_text(unsigned int shader, std::string text, float x, float y, float 
 
     glDisable(GL_DEPTH_TEST);								// never occluded, always visible
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE,GL_ONE);
-	glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);				// makes the HUD a bit easier to see
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
 	glActiveTexture(GL_TEXTURE0);
 
     // iterate through all characters
@@ -225,4 +217,6 @@ void render_text(unsigned int shader, std::string text, float x, float y, float 
     }
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
+
+    glEnable(GL_DEPTH_TEST);
 }

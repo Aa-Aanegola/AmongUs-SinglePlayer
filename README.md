@@ -1,2 +1,6 @@
-# Hello-World
-Repository with code for students to test their OpenGL installation. 
+# Single Player Among Us 
+This game was created in C++ using the openGL standard. The goal is to complete your tasks before the impostor gets to you!
+### Instructions 
+To build the game, run the command ```make``` after ensuring that GLAD and GLFW have been installed. This will create an executable named ```Hello-World``` that you can run using the command ```./Hello-World```. 
+### Controls
+To move the character use ```w```, ```a```, ```s``` and ```d```. To interact with any task utilities, simply position your character on top of the floor tiles, the action will take place automatically. Keep an eye out for the score, time left and tasks left (on the top left of the screen) as that indicates whether you completed the task or not! The red square that appears randomly on the maze gets rid of the impostor, the yellow square summons powerups and obstacles (smaller green and red squares that increase/decrease your points) and the green tile lets you escape the maze. To turn the lights off use the ```k``` key, and to turn them back on use the ```l``` key. If the lights are off, you will be rewarded with 2 bonus points. 

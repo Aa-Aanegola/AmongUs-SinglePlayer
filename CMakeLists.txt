@@ -40,6 +40,11 @@ include_directories( ${GLUT_INCLUDE_DIRS} )
 target_link_libraries(Hello-World ${GLUT_LIBRARY} )
 
 find_package(Freetype REQUIRED)
+find_package(FreeGLUT REQUIRED)
+
+target_link_libraries(Hello-World ${FreeGLUT_LIBRARIES})
+target_include_directories(Hello-World PRIVATE ${FreeGLUT_INCLUDE_DIRS})
+
 
 target_link_libraries(Hello-World ${FREETYPE_LIBRARIES})
 target_include_directories(Hello-World PRIVATE ${FREETYPE_INCLUDE_DIRS})
