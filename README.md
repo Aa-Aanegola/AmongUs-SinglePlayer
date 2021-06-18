@@ -1,6 +1,6 @@
 # Single Player Among Us 
 Explore a procedurally generated maze and try to complete your tasks before time runs out or the impostor gets you. Toggle the lights for a spookier and more challenging experience!
-![demo](./img/demo.mp4)
+![demo](./img/demo.gif)
 ### Instructions 
 To build the game, run the command ```make``` after ensuring that GLAD and GLFW have been installed. This will create an executable named ```Hello-World``` that you can run using the command ```./Hello-World```. This will start up the game in a new window which can be closed at any time using the ```Esc``` key.
 ### Features
